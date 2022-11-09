@@ -39,8 +39,11 @@ else
 @code {
 	private WeatherForecast[] forecasts;
 
+	private Location location;
+
 	protected override async Task OnInitializedAsync()
 	{
 		forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+		location = await Geolocation.GetLocationAsync();
 	}
 }
