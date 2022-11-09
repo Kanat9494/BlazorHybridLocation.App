@@ -1,7 +1,45 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+<div class="row">
+    <div class="container-fluid">
+        <form>
+            <div class="form-group">
+                <label for="inputBusNumber">Номер маршрутки</label>
+                <input type="email" class="form-control" id="inputBusNumber" aria-describedby="busNumberHelp" placeholder="Введите номер маршрутки"
+                    @bind="BusNumber">
+                <small id="busNumberHelp" class="form-text text-muted">Чтобы найти местоположение своей маршрутки, вам нужно ввести номер и нажать на кнопку Искать</small>
+            </div>
+            
+            <button type="submit" class="btn btn-success" @onclick="SearchBuses">Искать</button>
+        </form>
+    </div>
+</div>
 
-Welcome to your new app.
+<div class="row">
+    <div class="container-fluid">
+        <RadzenGoogleMap style="width: 100%; height: 100%" Zoom="@zoom" Center="@(new GoogleMapPosition() {Lat = 42.8600591480889, Lng = 74.5687092453115})">
+            <Markers>
+                <RadzenGoogleMapMarker Title="Paris" Label="Paris" Position="@(new GoogleMapPosition() {Lat = 42.83435636, Lng = 74.66663444})" />
+            </Markers>
+        </RadzenGoogleMap>
+    </div>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code 
+{
+    string BusNumber { get; set; }
+
+    int zoom = 15;
+
+    private Location location;
+
+    private void SearchBuses()
+    {
+        Console.WriteLine(BusNumber);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        location = await Geolocation.GetLocationAsync();
+    }
+}
